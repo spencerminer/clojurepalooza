@@ -2,11 +2,9 @@
 
 (defn score-game [game type]
   (let [get-flags (fn [player]
-                    (conj
-                      (mapv (fn [round]
-                              (get-in round [player :flags]))
-                            game)
-                      0))
+                    (-> (fn [round] (get-in round [player :flags]))
+                        (mapv game)
+                        (conj 0)))
         doubling-fn (fn [pair] (if (apply identical? pair)
                                  (* 2 (first pair))
                                  (first pair)))
