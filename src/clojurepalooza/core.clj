@@ -516,7 +516,7 @@
 (anagram-finder ["meat" "mat" "team" "mate" "eat"])
 
 
-(defn tic-tac-toe-winner-1.0 [rows]
+(defn tic-tac-toe-winner-1 [rows]
   (let [cols (for [i (range 3)]
                (map #(% i) rows))
         cross [(map #((rows %1) %1) (range 3))
@@ -528,7 +528,7 @@
                     (every? #(= :o %) triple) :o))]
     (->> winners (remove nil?) first)))
 
-(defn tic-tac-toe-winner-2.0 [rows]
+(defn tic-tac-toe-winner-2 [rows]
   (let [cols (apply map list rows)
         cross [(map #((rows %1) %1) (range 3))
                (map #((rows %1) %2) (range 3) (range 2 -1 -1))]
@@ -537,20 +537,39 @@
       (triples [:x :x :x]) :x
       (triples [:o :o :o]) :o)))
 
-(tic-tac-toe-winner-2.0 [[:x :e :o]
-                         [:x :e :e]
-                         [:x :e :o]])
-(tic-tac-toe-winner-2.0 [[:x :e :o]
-                         [:x :o :e]
-                         [:o :e :x]])
+(tic-tac-toe-winner-2 [[:x :e :o]
+                       [:x :e :e]
+                       [:x :e :o]])
+(tic-tac-toe-winner-2 [[:x :e :o]
+                       [:x :o :e]
+                       [:o :e :x]])
 
 
-(defn my-reductions
+(defn reduc
+  ([op coll] (reduc op (first coll) (rest coll)))
   ([op start coll]
-   )
-  ([op coll]
-   (my-reductions op (first coll) (rest coll))))
+   (lazy-seq
+     (if (empty? coll)
+       [start]
+       (cons start
+             (reduc op (op start (first coll)) (rest coll)))))))
 
+(reduc + [1 2 3 4 5])
+(take 5 (reduc + (range)))
+(reduc + 1 [2 3 4 5])
+
+
+(defn perfect-num? [n]
+  (let [divisors
+        (filter #(integer? (/ n %))
+                (range 1 n))]                         ; (Math/ceil (Math/sqrt n))
+    (= n (apply + divisors))))
+
+(perfect-num? 6)
+(perfect-num? 7)
+(perfect-num? 496)
+(perfect-num? 500)
+(perfect-num? 8128)
 
 
 

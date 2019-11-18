@@ -42,3 +42,6 @@
     (-> game
         (update :round inc)
         )))
+
+(defn -main []
+  (new-game :terrans :alien2))
