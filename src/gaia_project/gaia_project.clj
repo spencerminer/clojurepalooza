@@ -1,4 +1,6 @@
-(ns clojurepalooza.gaia-project)
+(ns gaia-project.gaia-project
+  (:gen-class)
+  (:require [clojure.pprint :as pp]))
 
 (def default-init-player
   {:points 10
@@ -44,4 +46,5 @@
         )))
 
 (defn -main []
-  (new-game :terrans :alien2))
+  (println "Hello people")
+  (pp/pprint (new-game [:terrans :alien2])))

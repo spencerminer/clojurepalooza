@@ -1,4 +1,5 @@
-(ns clojurepalooza.calvinball)
+(ns clojurepalooza.calvinball
+  (:gen-class))
 
 (defn score-game [game type]
   (let [get-flags (fn [player]
@@ -93,4 +94,6 @@
       (println ":)")
       (println ":("))))
 
-(test-it-all)
+(defn -main []
+  (test-it-all))
+
