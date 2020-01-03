@@ -10,26 +10,26 @@
     #(take n (iterate identity %))
     coll))
 
-(repseq [1 2 3] 3)
+;(repseq [1 2 3] 3)
 
 (defn interpo [x coll]
   (rest (interleave (repeat x) coll)))
 
-(interpo 1 [3 4 5 6 7])
+;(interpo 1 [3 4 5 6 7])
 
 (defn dropn [coll n]
   (mapcat (partial take (dec n))
           (partition-all n coll)))
 
-(dropn (range 10) 3)
+;(dropn (range 10) 3)
 
-(map (partial +) (range 5))
+;(map (partial +) (range 5))
 
 (defn rev-interleave [coll x]
   (map second (group-by #(mod % x)
                         coll)))
 
-(rev-interleave (range 10) 5)
+;(rev-interleave (range 10) 5)
 
 (defn rot-rec-helper [n coll]
   (if (= n 0)
@@ -39,13 +39,13 @@
 (defn rot-rec [n coll]
   (rot-rec-helper (mod n (count coll)) coll))
 
-(rot-rec 2 [1 2 3 4 5])
+;(rot-rec 2 [1 2 3 4 5])
 
 (defn rot-func [n coll]
   (let [nmod (mod n (count coll))]
     (concat (drop nmod coll) (take nmod coll))))
 
-(rot-func 2 [1 2 3 4 5])
+;(rot-func 2 [1 2 3 4 5])
 
 (defn half-truth [& body]
   (= 2 (count (set body))))
@@ -55,9 +55,9 @@
     b
     (gcd b (mod a b))))
 
-(gcd 10 5)
-(gcd 1023 858)
-(gcd 5 7)
+;(gcd 10 5)
+;(gcd 1023 858)
+;(gcd 5 7)
 
 (defn x-to-the-n [n]
   #(reduce * (repeat n %)))
@@ -81,7 +81,7 @@
 (defn andrews-age [phd-years bach-age bizops-time wasting-time]
   (+ phd-years bach-age bizops-time wasting-time))
 
-(andrews-age 6 22 1 1)
+;(andrews-age 6 22 1 1)
 
 
 (defn lala [x]
@@ -89,12 +89,12 @@
         half-x (Integer. (apply str (take (/ n 2) (str x))))]
     half-x))
 
-(lala 100)
+;(lala 100)
 
-([:a :b :c] 1)
+;([:a :b :c] 1)
 
-(take 10 (interpose :a [2 3 4]))
-(take 10 (repeat "x"))
+;(take 10 (interpose :a [2 3 4]))
+;(take 10 (repeat "x"))
 
 
 (defn compress [coll]
@@ -107,24 +107,24 @@
   (->> coll
        (partition-by identity)
        (map first)))
-(compress "Leeeeeerrrroyyyy")
-(compress2 "Leeeeeerrrroyyyy")
+;(compress "Leeeeeerrrroyyyy")
+;(compress2 "Leeeeeerrrroyyyy")
 
-((fn [start end] (take (- end start) (iterate inc start))) 1 4)
+;((fn [start end] (take (- end start) (iterate inc start))) 1 4)
 
-((fn [x] (apply * (range 1 (+ x 1)))) 8)
-((fn [x] (apply * (take-while pos? (iterate dec x)))) 8)
+;((fn [x] (apply * (range 1 (+ x 1)))) 8)
+;((fn [x] (apply * (take-while pos? (iterate dec x)))) 8)
 
-(for [[x y] (partition 2 (range 20))]
-  (+ x y))
+;(for [[x y] (partition 2 (range 20))]
+;  (+ x y))
 
 (defn dft [d coll] (apply hash-map (interleave coll (repeat d))))
 (defn dft2 [d coll] (zipmap coll (repeat d)))
-(dft2 0 [:a :b :c])
-(dft 0 [:a :b :c])
+;(dft2 0 [:a :b :c])
+;(dft 0 [:a :b :c])
 
-((fn [s] (apply str (filter #(Character/isUpperCase %) s)))
- "HeLlO, WoRlD!")
+;((fn [s] (apply str (filter #(Character/isUpperCase %) s)))
+ ;"HeLlO, WoRlD!")
 
 (defn flatttn [coll]
   (reduce (fn [acc x]
@@ -133,22 +133,22 @@
               (conj (vec acc) x)))
           []
           coll))
-(flatttn '((1 2) 3 [4 [5 6]]))
-(flatttn ["a" ["b"] "c"])
-(flatttn '((((:a)))))
+;(flatttn '((1 2) 3 [4 [5 6]]))
+;(flatttn ["a" ["b"] "c"])
+;(flatttn '((((:a)))))
 
-((fn [s c] [(take s c) (drop s c)])
- 3 [1 2 3 4 5 6])
+;((fn [s c] [(take s c) (drop s c)])
+; 3 [1 2 3 4 5 6])
 
-(set (remove nil? (map #{0 1 2 3} #{2 3 4 5})))
+;(set (remove nil? (map #{0 1 2 3} #{2 3 4 5})))
 
 (defn reiterate [f x]
   (cons x (lazy-seq (reiterate f (f x)))))
-(take 5 (reiterate inc 0))
+;(take 5 (reiterate inc 0))
 
 (defn prod-dig [a b]
   (map #(Character/digit % 10) (str (* 3 7))))
-(prod-dig 999 99)
+;(prod-dig 999 99)
 
 (defn groupby2 [f coll]
   (let [vals (map vec (partition-by f coll))
@@ -179,14 +179,14 @@
        (map (fn [x] {(f x) [x]}))
        (apply (partial merge-with concat))))
 
-(groupby1 #(> % 5) [1 3 6 8])
-(groupby1 #(apply / %) [[1 2] [2 4] [4 6] [3 6]])
-(groupby1 count [[1] [1 2] [3] [1 2 3] [2 3]])
+;(groupby1 #(> % 5) [1 3 6 8])
+;(groupby1 #(apply / %) [[1 2] [2 4] [4 6] [3 6]])
+;(groupby1 count [[1] [1 2] [3] [1 2 3] [2 3]])
 
 (defn sym-diff [a b]
   (let [s (set (filter a b))]
     (set (into (remove s a) (remove s b)))))
-(sym-diff #{1 3 5 7} #{1 2 3 4 5 6})
+;(sym-diff #{1 3 5 7} #{1 2 3 4 5 6})
 
 (defn dec->bin [x]
   (loop [n x, res ""]
@@ -195,11 +195,11 @@
       (if (even? n)
         (recur (/ n 2) (cons "0" res))
         (recur (/ (- n 1) 2) (cons "1" res))))))
-(dec->bin 1365)
+;(dec->bin 1365)
 
 (defn expt [x n]
   (reduce * (repeat n x)))
-#(reduce * (repeat %2 %1))
+;#(reduce * (repeat %2 %1))
 (defn bin->dec [bin]
   (reduce +
           (reduce (fn [acc x]
@@ -218,25 +218,25 @@
           0
           (map (fn [d] (- (int d) (int \0)))
                (seq bin))))
-(bin->dec "10101010101")
-(bin->dec "1111111111111111")
-(bin->dec "0")
-(bin->dec "1")
+;(bin->dec "10101010101")
+;(bin->dec "1111111111111111")
+;(bin->dec "0")
+;(bin->dec "1")
 
 (defn infix-calc [a & more]
   (reduce (fn [a [f b]] (f a b))
           a (partition 2 more)))
-(infix-calc 38 + 48 - 2 / 2)
-(infix-calc 10 / 2 - 1 * 2)
-(infix-calc 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9)
+;(infix-calc 38 + 48 - 2 / 2)
+;(infix-calc 10 / 2 - 1 * 2)
+;(infix-calc 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9)
 
 ;; Problem 157 - Lots of other interesting solutions at http://www.4clojure.com/problem/solutions/157
 (defn idx-seq [coll]
   (reduce
     (fn [acc k] (conj acc [k (count acc)]))
     [] coll))
-(idx-seq [0 1 3])
-(map-indexed vector [:a :b :c])
+;(idx-seq [0 1 3])
+;(map-indexed vector [:a :b :c])
 
 (defn factorial [n]
   (reduce * (range 1 (inc n))))
@@ -244,8 +244,8 @@
   (/ (factorial n) (* (factorial k) (factorial (- n k)))))
 (defn pascal-tri [n]
   (map #(choose (dec n) %) (range n)))
-(factorial 20)
-(choose 12 5)
+;(factorial 20)
+;(choose 12 5)
 (defn pascal-jb [n]
   (if (= n 1)
     [1]
@@ -259,15 +259,15 @@
   (nth
     (iterate #(concat [1] (map + % (rest %)) [1]) [1])
     (dec x)))
-(pascal-tri 11)
-(map pascal-tri (range 1 21))
+;(pascal-tri 11)
+;(map pascal-tri (range 1 21))
 
 (defn my-map [f coll]
   (lazy-seq
     (when-not (empty? coll)
       (cons (f (first coll))
             (my-map f (rest coll))))))
-(my-map inc [1 2 3 4 5])
+;(my-map inc [1 2 3 4 5])
 
 (defn is-tree? [coll]
   (cond
@@ -277,18 +277,18 @@
     (and (= 3 (count coll))
          (is-tree? (second coll))
          (is-tree? (last coll)))))
-(is-tree? '(:a (:b nil nil) nil))
-(is-tree? '(:a (:b nil nil)))
+;(is-tree? '(:a (:b nil nil) nil))
+;(is-tree? '(:a (:b nil nil)))
 
 (defn square [x] (* x x))
 
 ; Problem 120
-((fn [c]
-   (let [square #(* % %)
-         char->dig #(Character/digit % 10)
-         digs-sq #(->> % (str) (map char->dig) (map square) (apply +))]
-     (count (filter #(< % (digs-sq %)) c))))
- (range 30))
+;((fn [c]
+;   (let [square #(* % %)
+;         char->dig #(Character/digit % 10)
+;         digs-sq #(->> % (str) (map char->dig) (map square) (apply +))]
+;     (count (filter #(< % (digs-sq %)) c))))
+ ;(range 30))
 
 (fn [[s r]]
   {:suit ({\H :heart \S :spade \D :diamond \C :club} s)
@@ -313,14 +313,14 @@
               [n (flip r) (flip l)]))]
     (= left (flip right))))
 
-(sym-tree?2 [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-             [2 [3 nil [4 [6 nil nil] [5 nil nil]]] nil]])  ;; true
+;(sym-tree?2 [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+             ;[2 [3 nil [4 [6 nil nil] [5 nil nil]]] nil]])  ;; true
 
-(sym-tree?2 [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-             [2 [3 nil [4 [5 nil nil] [6 nil nil]]] nil]])  ;; false
+;(sym-tree?2 [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+;             [2 [3 nil [4 [5 nil nil] [6 nil nil]]] nil]])  ;; false
 
-(sym-tree?2 [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-             [2 [3 nil [4 [6 nil nil] nil]] nil]])          ;; false
+;(sym-tree?2 [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+;             [2 [3 nil [4 [6 nil nil] nil]] nil]])          ;; false
 
 
 (defn pascal-trap [coll]
@@ -330,7 +330,7 @@
             (conj c 0)))
     coll))
 
-(take 5 (pascal-trap [3 1 2]))
+;(take 5 (pascal-trap [3 1 2]))
 
 
 (defn tree->table [m]
@@ -338,18 +338,18 @@
                  [k2 v2] v1]
              {[k1 k2] v2})))
 
-(for [kl1 (keys '{[1] {a b c d}
-                  [2] {q r s t u v w x}})]
-  (println (get '{[1] {a b c d}
-                  [2] {q r s t u v w x}} kl1)))
+;(for [kl1 (keys '{[1] {a b c d}
+;                  [2] {q r s t u v w x}})]
+;  (println (get '{[1] {a b c d}
+;                  [2] {q r s t u v w x}} kl1)))
 
-(tree->table '{a {p 1, q 2}
-               b {m 3, n 4}})
+;(tree->table '{a {p 1, q 2}
+;               b {m 3, n 4}})
 
-(tree->table '{[1] {a b c d}
-               [2] {q r s t u v w x}})
+;(tree->table '{[1] {a b c d}
+;               [2] {q r s t u v w x}})
 
-(tree->table '{m {1 [a b c] 3 nil}})
+;(tree->table '{m {1 [a b c] 3 nil}})
 
 ;; 153
 (defn pw-disj [sos]
@@ -366,15 +366,15 @@
   (= (->> sos (map count) (apply +))
      (->> sos (mapcat seq) set count)))
 
-(pw-disj #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
-(pw-disj #{#{1 2}
-           #{3 4}
-           #{5 6}
-           #{3}})
-(pw-disj #{#{(#(-> *)) + (quote mapcat) #_nil}
-           #{'+ '* mapcat (comment mapcat)}
-           #{(do) set contains? nil?}
-           #{,,, #_,, empty?}})                             ;; false
+;(pw-disj #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
+;(pw-disj #{#{1 2}
+;           #{3 4}
+;           #{5 6}
+;           #{3}})
+;(pw-disj #{#{(#(-> *)) + (quote mapcat) #_nil}
+;           #{'+ '* mapcat (comment mapcat)}
+;           #{(do) set contains? nil?}
+;           #{,,, #_,, empty?}})                             ;; false
 
 (defn gcd [a b]
   (if (= 0 b) a (recur b (mod a b))))
@@ -384,12 +384,12 @@
           (lcm [a b] (/ (* a b) (gcd a b)))]
     (reduce lcm ns)))
 
-(gcd 48 18)
-(lcm 2 3)
-(lcm 3/4 1/6)
-(lcm 7 3/5)
-(lcm 5 3 7)
-(lcm 7 5/7 2 3/5)
+;(gcd 48 18)
+;(lcm 2 3)
+;(lcm 3/4 1/6)
+;(lcm 7 3/5)
+;(lcm 5 3 7)
+;(lcm 7 5/7 2 3/5)
 
 
 (defn flip [f]
@@ -397,25 +397,25 @@
     (apply f (reverse args))))
 
 
-((fn [c]
-   (->> c
-        (group-by type)
-        vals
-        set)) [1 :a 2 "ter" [3 4]])
+;((fn [c]
+;   (->> c
+;        (group-by type)
+;        vals
+;        set)) [1 :a 2 "ter" [3 4]])
 
 
-((fn [c]
-   (->> c
-        (group-by identity)
-        (map (fn [[k v]] {k (count v)}))
-        (into {})))
- [1 1 2 3 2 1 1])
+;((fn [c]
+;   (->> c
+;        (group-by identity)
+;        (map (fn [[k v]] {k (count v)}))
+;        (into {})))
+; [1 1 2 3 2 1 1])
 
-((fn [c]
-   (->> c
-        (map #(hash-map % 1))
-        (apply merge-with +)))
- [1 1 2 3 2 1 1])
+;((fn [c]
+;   (->> c
+;        (map #(hash-map % 1))
+;        (apply merge-with +)))
+; [1 1 2 3 2 1 1])
 
 ;; 56
 (fn [c]
@@ -433,7 +433,7 @@
       (if (empty? to-run)
         ret
         (recur (butlast to-run) ((last to-run) ret))))))
-((mein-comp zero? #(mod % 8) +) 3 5 7 9)
+;((mein-comp zero? #(mod % 8) +) 3 5 7 9)
 
 (fn leetwinski-comp [& fs]                                  ;; Wow
   (fn [& a] (let [[f & r] (reverse fs)]
@@ -449,7 +449,7 @@
                   (conj (vec (butlast acc)) (conj l x))
                   (conj acc [x]))))
             [] c)))
-(my-partition 3 (range 8))
+;(my-partition 3 (range 8))
 (defn partition-anjensan [n c]
   (map #(take n (drop % c))
        (range 0 (- (count c) n -1) n)))
@@ -461,13 +461,13 @@
                    "*"
                    (apply str (repeat % "-*"))))
     (range n)))
-(triangles 20)
+;(triangles 20)
 
 
 (defn my-juxt [& fns]
   (fn [& args]
     (for [f fns] (apply f args))))
-((my-juxt + max min) 2 3 5 1 6 4)
+;((my-juxt + max min) 2 3 5 1 6 4)
 
 
 (defn word-sorting [s]
@@ -486,8 +486,8 @@
         (remove (fn [n]
                   (some (fn [x] (= (rem n x) 0)) (range 2 n)))
                 (drop 2 (range)))))
-(last (get-primes 1000))
-(last (get-primes-john 1000))
+;(last (get-primes 1000))
+;(last (get-primes-john 1000))
 
 
 (defn filter-squares-hack [s]
@@ -513,7 +513,7 @@
        vals
        (remove #(= 1 (count %)))
        set))
-(anagram-finder ["meat" "mat" "team" "mate" "eat"])
+;(anagram-finder ["meat" "mat" "team" "mate" "eat"])
 
 
 (defn tic-tac-toe-winner-1 [rows]
@@ -537,12 +537,12 @@
       (triples [:x :x :x]) :x
       (triples [:o :o :o]) :o)))
 
-(tic-tac-toe-winner-2 [[:x :e :o]
-                       [:x :e :e]
-                       [:x :e :o]])
-(tic-tac-toe-winner-2 [[:x :e :o]
-                       [:x :o :e]
-                       [:o :e :x]])
+;(tic-tac-toe-winner-2 [[:x :e :o]
+;                       [:x :e :e]
+;                       [:x :e :o]])
+;(tic-tac-toe-winner-2 [[:x :e :o]
+;                       [:x :o :e]
+;                       [:o :e :x]])
 
 
 (defn reduc
@@ -554,9 +554,9 @@
        (cons start
              (reduc op (op start (first coll)) (rest coll)))))))
 
-(reduc + [1 2 3 4 5])
-(take 5 (reduc + (range)))
-(reduc + 1 [2 3 4 5])
+;(reduc + [1 2 3 4 5])
+;(take 5 (reduc + (range)))
+;(reduc + 1 [2 3 4 5])
 
 
 (defn perfect-num? [n]
@@ -565,11 +565,11 @@
                 (range 1 n))]                         ; (Math/ceil (Math/sqrt n))
     (= n (apply + divisors))))
 
-(perfect-num? 6)
-(perfect-num? 7)
-(perfect-num? 496)
-(perfect-num? 500)
-(perfect-num? 8128)
+;(perfect-num? 6)
+;(perfect-num? 7)
+;(perfect-num? 496)
+;(perfect-num? 500)
+;(perfect-num? 8128)
 
 
 
@@ -598,11 +598,11 @@
 ;(eval (list 'let ['result (+ 1 2)]
 ;            (list 'println 'result)
 ;            'result))
-(eval +)
+;(eval +)
 ;(eval (let [test 'nil?
 ;            body '((println "Yo"))]
 ;        (list 'if test (cons 'do body))))
-(conj '(:c 4) :a)
+;(conj '(:c 4) :a)
 
 ;(eval `(+ 1 ~(+ 3 4)))
 
@@ -622,7 +622,7 @@
      (println "Sweet gorilla of Manila, this is good code:" '~good)))
 
 ;(code-critic (1 + 1) (+ 1 1))
-(macroexpand '(code-critic2 (1 + 1) (+ 1 1)))
+;(macroexpand '(code-critic2 (1 + 1) (+ 1 1)))
 
 (defmacro my-print
   [expression]
@@ -636,8 +636,8 @@
      result))
 
 ;(my-print (* 3 5))
-(macroexpand-1 '(my-print2 (* 3 5)))
-(macroexpand-1 '(my-print (* 3 5)))
+;(macroexpand-1 '(my-print2 (* 3 5)))
+;(macroexpand-1 '(my-print (* 3 5)))
 
 (defmacro my-wand
   [coll]
