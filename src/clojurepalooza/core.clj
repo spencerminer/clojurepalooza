@@ -124,7 +124,7 @@
 ;(dft 0 [:a :b :c])
 
 ;((fn [s] (apply str (filter #(Character/isUpperCase %) s)))
- ;"HeLlO, WoRlD!")
+;"HeLlO, WoRlD!")
 
 (defn flatttn [coll]
   (reduce (fn [acc x]
@@ -288,7 +288,7 @@
 ;         char->dig #(Character/digit % 10)
 ;         digs-sq #(->> % (str) (map char->dig) (map square) (apply +))]
 ;     (count (filter #(< % (digs-sq %)) c))))
- ;(range 30))
+;(range 30))
 
 (fn [[s r]]
   {:suit ({\H :heart \S :spade \D :diamond \C :club} s)
@@ -314,7 +314,7 @@
     (= left (flip right))))
 
 ;(sym-tree?2 [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-             ;[2 [3 nil [4 [6 nil nil] [5 nil nil]]] nil]])  ;; true
+;[2 [3 nil [4 [6 nil nil] [5 nil nil]]] nil]])  ;; true
 
 ;(sym-tree?2 [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
 ;             [2 [3 nil [4 [5 nil nil] [6 nil nil]]] nil]])  ;; false
@@ -562,7 +562,7 @@
 (defn perfect-num? [n]
   (let [divisors
         (filter #(integer? (/ n %))
-                (range 1 n))]                         ; (Math/ceil (Math/sqrt n))
+                (range 1 n))]                               ; (Math/ceil (Math/sqrt n))
     (= n (apply + divisors))))
 
 ;(perfect-num? 6)
@@ -572,6 +572,43 @@
 ;(perfect-num? 8128)
 
 
+;; Problem 102 intoCamelCase
+(defn ->camel [s]
+  (letfn [(change-first-letter [cap s]
+            (apply str (cap (first s)) (rest s)))]
+    (->> (clojure.string/split s #"-")
+         (map (partial change-first-letter clojure.string/upper-case))
+         clojure.string/join
+         (change-first-letter clojure.string/lower-case))))
+
+(defn ->camel-jj [s]
+  (let [[f & rst] (clojure.string/split s #"-")]
+    (apply str f (map clojure.string/capitalize rst))))
+
+#(clojure.string/replace % #"-."
+                         (comp clojure.string/upper-case second))
+
+;(do
+;  (println (->camel-jj "something"))
+;  (println (->camel-jj "multi-word-key"))
+;  (println (->camel-jj "leaveMeAlone")))
+
+
+;; Problem 69 merge-with
+(defn merge-wit [f & args]
+  (reduce
+    (fn [final [k v]]
+      (if (final k)
+        (update final k f v)
+        (assoc final k v)))
+    {}
+    (mapcat (partial into []) args)))
+
+;(do
+;  (println (merge-wit * {:a 2, :b 3, :c 4} {:a 2} {:b 2} {:c 5}))
+;  (println (merge-wit - {1 10, 2 20} {1 3, 2 10, 3 15}))
+;  (println (merge-wit concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]}))
+;  )
 
 
 
