@@ -1,4 +1,5 @@
-(ns clojurepalooza.blockchain)
+(ns clojurepalooza.blockchain
+  (:import (clojure.lang PersistentQueue)))
 
 (def the-chain
   [{:previous-hash "GENESIS"
@@ -28,11 +29,6 @@
                                      data)) the-chain)]
   (apply merge-with + (concat [miner-totals] transactions)))
 
-;; a series of tubes
-#_(->> (for [salt (range)]
-         [salt (hash (assoc block :salt salt))])
-       (filter #(= 0 (bit-and 0xFFFFFF80 (second %))))
-       ffirst)
 (defn mine-single-thread [n block]
   (->> (repeatedly n #(java.util.UUID/randomUUID))
        (map (juxt identity #(hash (assoc block :salt %))))
@@ -63,23 +59,12 @@
   (format "%08x" (hash (assoc (last the-chain) :salt (first the-solution))))
   )
 
-(let [miner-totals (apply merge-with +
-                          (for [{:keys [miner]} the-chain]
-                            {miner 50}))
-
-      transactions (mapcat (fn [{:keys [data miner]}]
-                             (mapcat (fn [{:keys [from to amount fee]}]
-                                       [{from (- amount)}
-                                        {to amount}
-                                        {from (- fee)}
-                                        {miner fee}])
-                                     data)) the-chain)]
-  (apply merge-with + (concat [miner-totals] transactions)))
-
 (def print-lock (Object.))
+(declare broadcast)
 (defn thp [& args]
   (locking print-lock
     (apply println args)))
+
 (defn run-miner [stop i inputstate]
   (let [[[msg] _] (swap-vals! inputstate pop)]
     (if (= msg :stop)
@@ -95,7 +80,7 @@
 
 (defn miner [i]
   (let [stop (atom false)
-        inputstate (atom (clojure.lang.PersistentQueue/EMPTY))]
+        inputstate (atom (PersistentQueue/EMPTY))]
     {:thread (future
                (thp (format "Starting miner %d!" i))
                (run-miner stop i inputstate))
