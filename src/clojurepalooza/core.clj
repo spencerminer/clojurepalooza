@@ -610,6 +610,39 @@
 ;  (println (merge-wit concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]}))
 ;  )
 
+;; Problem 86 Happy numbers
+(defn sqr [x] (* x x))
+(defn next-happy [n]
+  (->> n
+       str
+       (map #(sqr (Character/digit % 10)))
+       (apply +)))
+
+(defn dumb-happy? [n]
+  (->> n
+       (iterate next-happy)
+       (take 50)
+       last
+       (= 1)))
+(dumb-happy? 7)                                                  ;; true
+(dumb-happy? 986543210)                                          ;; true
+(dumb-happy? 2)                                                  ;; false
+(dumb-happy? 3)                                                  ;; false
+
+(defn smart-happy?
+  ([n]
+   (smart-happy? n #{}))
+  ([n seen]
+   (when-not (seen n)
+     (let [next (next-happy n)]
+       (if (= 1 next)
+         true
+         (recur next (conj seen n)))))))
+(smart-happy? 7)                                                 ;; true
+(smart-happy? 986543210)                                         ;; true
+(smart-happy? 2)                                                 ;; false
+(smart-happy? 3)                                                 ;; false
+
 
 
 
