@@ -60,7 +60,7 @@
              "         "
              "         "])
 
-(def lwss   ; light-weight spaceship
+(def lwss                                                   ; light-weight spaceship
   ["              "
    " #  #         "
    "     #        "
@@ -89,12 +89,27 @@
    "                 "
    "                 "])
 
+(def gliders
+  ["                 "
+   "                 "
+   "                 "
+   "            #    "
+   "           #     "
+   "           ###   "
+   "                 "
+   "  ###            "
+   "    #            "
+   "   #             "
+   "                 "
+   "                 "
+   "                 "])
+
 (comment
 
-  (doseq [game-round (take 20 (iterate next-gen pulsar))]
+  (doseq [game-round (take 30 (iterate next-gen gliders))]
     (dorun
       (map #(prn %)
            game-round))
-    (Thread/sleep 500))
+    (Thread/sleep 400))
 
   )
