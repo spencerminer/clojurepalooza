@@ -50,12 +50,22 @@
                    "      "
                    "      "])
 
+(def glider ["         "
+             "  #      "
+             "   #     "
+             " ###     "
+             "         "
+             "         "
+             "         "
+             "         "
+             "         "])
+
 (comment
 
-  (doseq [game-round (take 10 (iterate next-gen blinker))]
+  (doseq [game-round (take 20 (iterate next-gen glider))]
     (dorun
       (map #(prn %)
            game-round))
-    (Thread/sleep 1000))
+    (Thread/sleep 500))
 
   )
