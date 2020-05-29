@@ -60,9 +60,19 @@
              "         "
              "         "])
 
+(def lwss   ; light-weight spaceship
+  ["              "
+   " #  #         "
+   "     #        "
+   " #   #        "
+   "  ####        "
+   "              "
+   "              "
+   "              "])
+
 (comment
 
-  (doseq [game-round (take 20 (iterate next-gen glider))]
+  (doseq [game-round (take 20 (iterate next-gen lwss))]
     (dorun
       (map #(prn %)
            game-round))
