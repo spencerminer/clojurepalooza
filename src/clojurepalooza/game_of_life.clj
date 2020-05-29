@@ -70,9 +70,28 @@
    "              "
    "              "])
 
+(def pulsar
+  ["                 "
+   "                 "
+   "    ###   ###    "
+   "                 "
+   "  #    # #    #  "
+   "  #    # #    #  "
+   "  #    # #    #  "
+   "    ###   ###    "
+   "                 "
+   "    ###   ###    "
+   "  #    # #    #  "
+   "  #    # #    #  "
+   "  #    # #    #  "
+   "                 "
+   "    ###   ###    "
+   "                 "
+   "                 "])
+
 (comment
 
-  (doseq [game-round (take 20 (iterate next-gen lwss))]
+  (doseq [game-round (take 20 (iterate next-gen pulsar))]
     (dorun
       (map #(prn %)
            game-round))
