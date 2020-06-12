@@ -4,8 +4,10 @@
 profiles.clj
 pom.xml
 pom.xml.asc
+*.iml
 *.jar
 *.class
+*.DS_Store
 /.lein-*
 /.nrepl-port
 .hgignore
