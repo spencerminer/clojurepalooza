@@ -6,5 +6,8 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [clj-http "3.10.0"]
                  [clj-time "0.15.2"]
-                 [org.clojure/data.csv "1.0.0"]]
+                 [clojure.java-time "0.3.2"]
+                 [org.clojure/data.csv "1.0.0"]
+                 [org.clojure/data.generators "1.0.0"]
+                 [org.clojure/test.check "0.10.0"]]
   :repl-options {:init-ns clojurepalooza.core})
