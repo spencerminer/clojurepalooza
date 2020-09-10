@@ -1,5 +1,4 @@
-(ns wizard-book.chapter-1
-  (:require [java-time :as jt]))
+(ns wizard-book.chapter-1)
 
 (defn square [x]
   (* x x))
@@ -373,7 +372,7 @@
  )
 
 
-;; Exercise 1.
+;; Exercise 1.43
 (defn- repeated-they-call-it [f n]
   (fn [x]
     (nth (iterate f x) n)))
