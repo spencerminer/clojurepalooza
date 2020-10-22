@@ -1,15 +1,16 @@
 (ns clojurepalooza.macro-practice)
 
-;(eval (list 'let ['result (+ 1 2)]
-;            (list 'println 'result)
-;            'result))
-;(eval +)
-;(eval (let [test 'nil?
-;            body '((println "Yo"))]
-;        (list 'if test (cons 'do body))))
-;(conj '(:c 4) :a)
+(comment
+ (eval (list 'let ['result (+ 1 2)]
+             (list 'println 'result)
+             'result))
+ (eval +)
+ (eval (let [test 'nil?
+             body '((println "Yo"))]
+         (list 'if test (cons 'do body))))
+ (conj '(:c 4) :a)
 
-;(eval `(+ 1 ~(+ 3 4)))
+ (eval `(+ 1 ~(+ 3 4))))
 
 (defmacro code-critic
   "Phrases are courtesy Hermes Conrad from Futurama"
@@ -26,8 +27,9 @@
      (println "Great squid of Madrid, this is bad code:" `'~bad)
      (println "Sweet gorilla of Manila, this is good code:" '~good)))
 
-;(code-critic (1 + 1) (+ 1 1))
-;(macroexpand '(code-critic2 (1 + 1) (+ 1 1)))
+(comment
+ (code-critic (1 + 1) (+ 1 1))
+ (macroexpand '(code-critic2 (1 + 1) (+ 1 1))))
 
 (defmacro my-print
   [expression]
@@ -40,13 +42,28 @@
      (println result)
      result))
 
-;(my-print (* 3 5))
-;(macroexpand-1 '(my-print2 (* 3 5)))
-;(macroexpand-1 '(my-print (* 3 5)))
+(comment
+ (my-print (* 3 5))
+ (macroexpand-1 '(my-print2 (* 3 5)))
+ (macroexpand-1 '(my-print (* 3 5))))
 
 (defmacro my-wand
   [coll]
   `(println ~coll))
 
-;(let [c [(+ 1 2) (+ 2 3)]]
-;  (my-wand c))
+(comment
+ (let [c [(+ 1 2) (+ 2 3)]]
+   (my-wand c)))
+
+(defmacro spencer-do [& args]
+  (last
+   (for [x# args]
+     (eval x#))))
+
+(defmacro more-do [& args]
+  `(let [] ~@args))
+
+(comment
+ (spencer-do (println 3) (range 10) (println 5))
+ (more-do (println 3) (range 10) (println 5))
+ )
