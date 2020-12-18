@@ -311,7 +311,6 @@
        (fringe (rest tree-list))))))
 
 (comment
- (concat (list 1 2) (list 3 4))
  (def x (list (list 1 2) (list 3 4)))
  (fringe x)
  (fringe (list x x))
@@ -425,8 +424,8 @@
                        (list 6 7)))
 
 (comment
-  (square-tree-lower-order-functions test-tree-1)
-  (square-tree-using-maps test-tree-1))
+ (square-tree-lower-order-functions test-tree-1)
+ (square-tree-using-maps test-tree-1))
 
 ;; Exercise 2.31
 (defn- tree-map [f tree]
@@ -441,20 +440,79 @@
  (tree-map (comp w1/square inc) test-tree-1))
 
 
-;; Exericise 2.32
+;; Exercise 2.32
 (defn- subsets [s]
-  ;(print s "=>")
   (if (empty? s)
     (list nil)
     (let [rest-s (subsets (rest s))]
-      (println "rest-s" rest-s)
-      (concat rest-s (map (fn [x]
-                            (cons (first s) x))
-                          rest-s)))))
+      (println "s:" s "; rest-s:" rest-s)
+   #p (concat rest-s (map
+                      (fn [x]
+                        (cons (first s) x))
+                      rest-s)))))
 
 (comment
  (subsets (list 1 2 3)
           )
 
- "Now, why does this work?..."
+ "The way this works is clearly seen with the printlns and the #p printer
+ thing. Basically, it recursively calls `subsets` on the `rest` term, and
+ `cons`es the `first` term onto every subset that we have so far and concats
+ those with the subsets we have so far."
+ )
+
+
+(defn- accumulate [op initial sequence]
+  (if (empty? sequence)
+    initial
+    (op (first sequence)
+        (accumulate op initial (rest sequence)))))
+;; Exercise 2.33
+(defn- map-v-accumulate [f s]
+  (accumulate (fn [x y] (cons (f x) y)) nil s))
+
+(defn- append-v-accumulate [s1 s2]
+  (accumulate cons s2 s1))
+
+(defn- length-v-accumulate [s]
+  (accumulate (fn [_ y] (inc y)) 0 s))
+
+(comment
+ ((juxt map map-v-accumulate) inc (range 5))
+
+ ((juxt concat append-v-accumulate) [1 2 3] [4 5 6])
+
+ ((juxt count length-v-accumulate) [9 9])
+ ((juxt count length-v-accumulate) [9 9 9])
+ ((juxt count length-v-accumulate) [9 9 9 9 9 9 9])
+ )
+
+
+;; Exercise 2.34
+(defn- horner-eval [x coefficient-seq]
+  (accumulate (fn [this-coeff higher-terms]
+                (+ this-coeff
+                   (* x higher-terms)))
+              0
+              coefficient-seq))
+
+(comment
+ (= 79 (horner-eval 2 (list 1 3 0 5 0 1)))
+ (horner-eval 2 (list 1 1 1 1 1 2))
+ )
+
+
+;; Exercise 2.36
+(defn- accumulate-n [op init seqs]
+  (if (empty? (first seqs))
+    nil
+    (cons (accumulate op init (map first seqs))
+          (accumulate-n op init (map rest seqs)))))
+
+(comment
+ (let [seqs (list (list 1  2  3)
+                  (list 4  5  6)
+                  (list 7  8  9)
+                  (list 10 11 12))]
+  (accumulate-n + 0 seqs))
  )
