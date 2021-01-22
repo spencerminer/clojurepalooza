@@ -1,9 +1,9 @@
 (ns clojurepalooza.bg-stats
   (:require [cheshire.core :as json]))
 
-(defn laitrap [f last-arg]
+(defn laitrap [f & last-args]
   (fn [first-arg]
-    (f first-arg last-arg)))
+    (apply f first-arg last-args)))
 
 (def all-stats
   (-> "resources/BGStatsExport.json"

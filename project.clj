@@ -8,6 +8,8 @@
                  [clj-http "3.10.0"]
                  [clj-time "0.15.2"]
                  [clojure.java-time "0.3.2"]
+                 [hiccup "1.0.5"]
+                 [hickory "0.7.1"]
                  [org.clojure/data.csv "1.0.0"]
                  [org.clojure/data.generators "1.0.0"]
                  [org.clojure/test.check "0.10.0"]]
