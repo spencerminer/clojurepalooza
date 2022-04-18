@@ -50,7 +50,7 @@
        (remove #{done})
        (apply +)))
 
-;;(seq (filter won? (take 4 all-boards)))
+;; part-1
 (loop [numbers all-numbers
        boards all-boards]
   (let [current-number (first numbers)
@@ -58,3 +58,16 @@
     (if-let [winning-boards (seq (filter won? next-boards))]
       (* (sum-board winning-boards) current-number)
       (recur (rest numbers) next-boards))))
+;; => 22680
+
+;; part-2
+(loop [numbers all-numbers
+       boards all-boards]
+  (let [current-number (first numbers)
+        xed-boards (mapv (partial x-num-from-board current-number) boards)
+        winning-boards (seq (filter won? xed-boards))
+        next-boards (remove (set winning-boards) xed-boards)]
+    (if (zero? (count next-boards))
+      (* (sum-board winning-boards) current-number)
+      (recur (rest numbers) next-boards))))
+;; => 16168
