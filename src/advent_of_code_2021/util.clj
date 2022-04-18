@@ -7,3 +7,7 @@
        io/resource
        io/reader
        line-seq))
+
+(defn prn-rtn [arg]
+  (clojure.pprint/pprint arg)
+  arg)
