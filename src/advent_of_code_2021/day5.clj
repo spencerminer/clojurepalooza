@@ -29,6 +29,13 @@
                      (map endpoints->points)
                      (apply concat)))
 
+(def all-vertical-horizontal-points
+  (->> endpoints
+       (filter (fn [[[x1 y1] [x2 y2]]]
+                 (or (= x1 x2) (= y1 y2))))
+       (map endpoints->points)
+       (apply concat)))
+
 (def dimension 1000)
 
 (defn init-board [x]
@@ -37,16 +44,42 @@
 (defn inc-in [board [x y]]
   (update-in board [y x] inc))
 
-(def final-board
+(defn gen-final-board [points]
   (reduce (fn [board point]
             (inc-in board point))
           (init-board dimension)
-          all-points))
+          points))
 
-"Ugh I have to only do vertical & horizontal lines rn"
+(defn count-overlaps-slow [board]
+  (->> board
+       flatten
+       (filter #(<= 2 %))
+       count))
 
-(->> final-board
-     (take 30)
-     (map (partial take 30))   ;; see this
-     flatten
-     (apply +))
+;; This is ~15 times faster for the 1000x1000 full board!!
+(defn count-overlaps-fast [board]
+  (->> board
+       (map (partial filter #(<= 2 %)))
+       flatten
+       count))
+
+;; This is ~2 times faster than the `fast` version!
+(defn count-overlaps-faster [board]
+  (->> board
+       (map (partial filter #(<= 2 %)))
+       (map count)
+       (apply +)))
+
+(def part-1 (-> all-vertical-horizontal-points
+                gen-final-board
+                count-overlaps-fast))
+part-1  ;; => 4655
+
+(def final-board (gen-final-board all-points))
+(def part-2 (count-overlaps-fast final-board))
+part-2  ;; => 20500
+
+(comment
+ (time (count-overlaps-slow final-board)) 450
+ (time (count-overlaps-fast final-board)) 30
+ (time (count-overlaps-faster final-board)) 18)
