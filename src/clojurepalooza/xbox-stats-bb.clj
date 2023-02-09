@@ -1,9 +1,14 @@
-(ns clojurepalooza.xbox-stats
-  (:require [clj-http.client :as http]
-            [clj-time.core :as t]
-            [clojure.string :as string]
-            [hickory.core :as h]
-            [hickory.select :as s]))
+#!/usr/bin/env bb
+(import 'java.time.format.DateTimeFormatter
+        'java.time.LocalDateTime)
+
+(require '[babashka.curl :as http]
+         '[babashka.pods :as pods]
+         '[clojure.string :as string])
+
+(pods/load-pod 'retrogradeorbit/bootleg "0.1.9")
+(require '[pod.retrogradeorbit.bootleg.utils :as utils]
+         '[pod.retrogradeorbit.hickory.select :as s])
 
 (def my-url "https://www.trueachievements.com/gamer/conjurer12/gamecollection")
 
@@ -77,41 +82,24 @@
        reverse
        vec))
 
-(defn println-no-op [x msg]
-  (println msg)
+(defn println-no-op [x & msgs]
+  (apply println msgs)
   x)
+
+(defn get-date []
+  (.format (LocalDateTime/now)
+           (DateTimeFormatter/ofPattern "yyyy-MM-dd'T'HH:mm:ss")))
 
 (defn main []
   (println "Fetching gameplay data from TrueAchievements:" my-url)
-  (-> (http/get my-url)
-      :body
-      (println-no-op "Parsing data...")
-      h/parse
-      h/as-hickory
-      get-game-table
-      create-game-maps
-      (println-no-op "Spitting to file")
-      ((partial spit (format "resources/xbox-data/game-data-%s.edn" (t/now))))))
+  (let [outfile (format "resources/xbox-data/game-data-%s.edn" (get-date))]
+    (-> (http/get my-url)
+        :body
+        (println-no-op "Parsing data...")
+        (utils/convert-to :hickory)
+        get-game-table
+        create-game-maps
+        (println-no-op "Spitting to file:" outfile)
+        ((partial spit outfile)))))
 
-#_(main)
-
-(comment
- (def gm (create-game-maps gch))
- (-> gm
-     first
-     keys)
- ;;=>
- ;;("TrueAchievement"
- ;; "Play Status"
- ;; "Title"
- ;; "Achievements"
- ;; "Date started"
- ;; "Time played"
- ;; "Completion %age"
- ;; "Gamerscore"
- ;; "Date completed")
- (sort-titles-by gm "Time played")
- (sort-titles-by gm "Completion %age")
- (sort-titles-by gm "TrueAchievement")
- (sort-titles-by gm "TrueAchievement %age")
- (sort-titles-by gm "TrueAchievement score"))
+(main)
