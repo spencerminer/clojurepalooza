@@ -100,6 +100,17 @@
  (-> gm
      first
      keys)
+
+ ;; LinuxStation
+ ;; - good for having a full desktop anywhere in the world
+ ;; - Needs dual-core intel CPU, 2 gig DDR3 memory
+ ;; Virtualization Station
+ ;; - Needs dual-core (ideally quad) intel CPU, 2 gig (ideally 4) DDR3 memory
+ ;; - can do anything basically
+ ;; Container Station
+ ;; - small, fewer resources required
+ ;; -
+
  ;;=>
  ;;("TrueAchievement"
  ;; "Play Status"
